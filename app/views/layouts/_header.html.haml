@@ -1,0 +1,33 @@
+%nav.navbar.navbar-inverse
+  .container
+
+    .navbar-header
+      %button.navbar-toggle.collapsed{"aria-controls" => "navbar", "aria-expanded" => "false", "data-target" => "#navbar", "data-toggle" => "collapse", :type => "button"}
+        %span.sr-only Toggle navigation
+        %span.icon-bar
+        %span.icon-bar
+        %span.icon-bar
+      = link_to "Lunchy", root_path, class: "navbar-brand"
+
+    #navbar.collapse.navbar-collapse
+      %ul.nav.navbar-nav
+        %li
+          = link_to root_path  do
+            %span.glyphicon.glyphicon-cutlery{"aria-hidden" => "true"}
+            Menu
+      /   - if user_signed_in?
+      /     %li
+      /       = link_to new_hotel_path  do
+      /         %span.glyphicon.glyphicon-plus{"aria-hidden" => "true"}
+      /         Add hotel
+
+      %ul.nav.navbar-nav.navbar-right
+        - if user_signed_in?
+          %li
+            = link_to current_user do
+              %span.glyphicon.glyphicon-user{"aria-hidden" => "true"}
+              = current_user.name
+          %li= link_to 'Logout', destroy_user_session_path, :method => :delete
+        - else
+          %li= link_to 'Sign up', new_user_registration_path
+          %li= link_to 'Log in', new_user_session_path

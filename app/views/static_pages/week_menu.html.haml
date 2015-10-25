@@ -1,0 +1,12 @@
+- provide(:title, "Week menu")
+
+.row
+  - if current_user.admin?
+    %p admin
+
+.row
+  - for i in 0..4
+    .col-md-2{ :class => ("col-md-offset-1" if i == 0) }
+      .day
+        %p
+          = (@first_day + i.days).strftime("%A %d.%m.%Y") 

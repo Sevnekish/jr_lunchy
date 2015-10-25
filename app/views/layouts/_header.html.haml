@@ -11,15 +11,11 @@
 
     #navbar.collapse.navbar-collapse
       %ul.nav.navbar-nav
-        %li
-          = link_to root_path  do
-            %span.glyphicon.glyphicon-cutlery{"aria-hidden" => "true"}
-            Menu
-      /   - if user_signed_in?
-      /     %li
-      /       = link_to new_hotel_path  do
-      /         %span.glyphicon.glyphicon-plus{"aria-hidden" => "true"}
-      /         Add hotel
+        - if user_signed_in?
+          %li
+            = link_to week_menu_path  do
+              %span.glyphicon.glyphicon-cutlery{"aria-hidden" => "true"}
+              Week menu
 
       %ul.nav.navbar-nav.navbar-right
         - if user_signed_in?

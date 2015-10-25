@@ -13,6 +13,7 @@ gem 'bcrypt-ruby'
 gem 'haml'
 gem 'bootstrap-sass'
 gem 'devise'
+gem "cancan"
 gem 'simple_form'
 gem 'carrierwave'
 gem 'mini_magick'

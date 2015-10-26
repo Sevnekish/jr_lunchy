@@ -1,12 +1,12 @@
 - provide(:title, "Week menu")
 
 .row
-  - if current_user.admin?
-    %p admin
-
-.row
   - for i in 0..4
-    .col-md-2{ :class => ("col-md-offset-1" if i == 0) }
-      .day
-        %p
-          = (@first_day + i.days).strftime("%A %d.%m.%Y") 
+    - cur_day = @first_day + i.days
+    = link_to root_path, :class => "day-link" do
+      .col-md-2{ :class => ("col-md-offset-1" if i == 0) }
+        .day
+          %p
+            = cur_day.strftime("%A %d.%m.%Y")
+          - if cur_day == Date.today
+            %p Today

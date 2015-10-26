@@ -1,13 +1,12 @@
 # == Schema Information
 #
-# Table name: categories
+# Table name: orders
 #
 #  id         :integer          not null, primary key
-#  name       :string
+#  user_id    :integer
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
 #
 
-class Category < ActiveRecord::Base
-  has_many :items, dependent: :destroy
+class Order < ActiveRecord::Base
 end

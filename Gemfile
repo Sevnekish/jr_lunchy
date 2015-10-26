@@ -19,6 +19,8 @@ gem 'carrierwave'
 gem 'mini_magick'
 gem 'annotate'
 gem 'faker'
+gem "responders"
+
 
 group :doc do
   gem 'sdoc', '~> 0.4.0'

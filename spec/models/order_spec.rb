@@ -1,13 +1,15 @@
 # == Schema Information
 #
-# Table name: categories
+# Table name: orders
 #
 #  id         :integer          not null, primary key
-#  name       :string
+#  user_id    :integer
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
 #
 
-class Category < ActiveRecord::Base
-  has_many :items, dependent: :destroy
+require 'rails_helper'
+
+RSpec.describe Order, type: :model do
+  pending "add some examples to (or delete) #{__FILE__}"
 end

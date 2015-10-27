@@ -16,6 +16,9 @@
 
 @import "bootstrap-sprockets";
 @import "bootstrap";
+@import "font-awesome";
+
+@import "../../../vendor/assets/stylesheets/*";
 
 .alert-notice {
   @extend .alert-info

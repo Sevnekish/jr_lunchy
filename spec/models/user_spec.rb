@@ -17,6 +17,8 @@
 #  updated_at             :datetime         not null
 #  name                   :string
 #  admin                  :boolean          default(FALSE)
+#  provider               :string
+#  uid                    :string
 #
 # Indexes
 #

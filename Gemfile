@@ -20,7 +20,11 @@ gem 'mini_magick'
 gem 'annotate'
 gem 'faker'
 gem "responders"
+gem 'omniauth'
+# gem 'omniauth-google-oauth2'
+gem 'omniauth-facebook'
 
+gem "font-awesome-rails"
 
 group :doc do
   gem 'sdoc', '~> 0.4.0'

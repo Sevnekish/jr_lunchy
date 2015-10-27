@@ -8,4 +8,6 @@
     = f.input :password_confirmation, required: true
   .form-actions
     = f.button :submit, "Sign up"
+    = link_to user_omniauth_authorize_path(:facebook), :class => "btn btn-social-icon btn-facebook" do
+      %i.fa.fa-facebook
 = render "devise/shared/links"

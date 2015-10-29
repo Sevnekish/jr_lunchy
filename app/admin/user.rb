@@ -1,11 +1,17 @@
 ActiveAdmin.register User do
+  config.per_page = 20
+
   permit_params :name, :email, :password, :password_confirmation, :organization_id
+
+  scope :joined, :default => true do |users|
+    users.includes [:organization]
+  end
 
   index do
     column :id
     column :email
     column :name
-    column :organization
+    column :organization, :sortable => 'organizations.name'
     column :admin
     column :provider
     column :uid

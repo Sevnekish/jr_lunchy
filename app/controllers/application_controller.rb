@@ -18,7 +18,11 @@ class ApplicationController < ActionController::Base
   #onmiauth overrided methods
   def after_sign_in_path_for(resource)
     if resource.first_entry?
-      edit_user_registration_path
+      if resource.provider.blank?
+        root_url
+      else
+        edit_user_registration_path
+      end
     else
       root_url
     end

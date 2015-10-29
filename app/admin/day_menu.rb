@@ -1,5 +1,17 @@
 ActiveAdmin.register DayMenu do
+  config.per_page = 20
+
   permit_params :day_id, :item_ids => []
+
+  index do
+    column :id
+    column "Day", :sortable => 'day_id' do |day_menu|
+      Date::DAYNAMES[day_menu.day_id]
+    end
+    column :created_at
+    column :updated_at
+    actions
+  end
 
   form do |f|
     f.inputs "Day menu" do

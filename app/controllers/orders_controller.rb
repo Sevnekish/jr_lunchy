@@ -4,11 +4,14 @@ class OrdersController < ApplicationController
   before_action :authenticate_user!
 
   def index
-    # filter
-    # @hotels = Orders.higher_rating.paginate(page: params[:page], :per_page => 8)
-    # new
-    # @hotel = current_user.hotels.build
-    # @hotel.build_address
+    # needed only for menu showing right, do it only for menu
+    # params[:date] = params[:date].present? ? params[:date].to_date : Date.today
+    @orders = Order.filter(params.slice(:date, :organization))
+    @orders = @orders.where(user: current_user) unless current_user.admin?
+
+    @order = current_user.orders.build
+
+    #items for this day menu
   end
 
   def create
@@ -23,9 +26,6 @@ class OrdersController < ApplicationController
   end
 
   def edit
-  end
-
-  def show
   end
 
   def update
@@ -55,4 +55,5 @@ class OrdersController < ApplicationController
     def find_order
       # @hotel = Hotel.find(params[:id])
     end
+
 end

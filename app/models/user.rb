@@ -32,6 +32,7 @@ class User < ActiveRecord::Base
   before_create :become_an_admin!
 
   belongs_to :organization
+  has_many :orders
 
   devise :database_authenticatable, :registerable,
 :recoverable, :rememberable, :trackable, :validatable,

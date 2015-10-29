@@ -29,7 +29,7 @@
 #
 
 class User < ActiveRecord::Base
-  before_create :become_an_admin
+  before_create :become_an_admin!
 
   belongs_to :organization
 
@@ -37,8 +37,8 @@ class User < ActiveRecord::Base
 :recoverable, :rememberable, :trackable, :validatable,
 :omniauthable, :omniauth_providers => [:facebook]
 
-  # validates_associated :organization
   validates :organization, presence: true
+
   def first_entry?
     self.sign_in_count == 1
   end
@@ -61,9 +61,10 @@ class User < ActiveRecord::Base
   end
 
   private
-    def become_an_admin
+    def become_an_admin!
       if ! User.any?
         self.admin = true
       end
     end
+
 end

@@ -4,14 +4,21 @@
 #
 #  id          :integer          not null, primary key
 #  category_id :integer
-#  name        :integer
+#  name        :string
 #  price       :decimal(, )
-#  is_deleted  :boolean          default(FALSE)
-#  deleted_at  :datetime
 #  created_at  :datetime         not null
 #  updated_at  :datetime         not null
 #
 
 class Item < ActiveRecord::Base
   belongs_to :category
+  has_many :order_items
+  has_many :orders, through: :order_items
+
+  has_many :day_menu_items
+  has_many :day_menus, through: :day_menu_items
+
+  # def for_this_day(date)
+    
+  # end
 end

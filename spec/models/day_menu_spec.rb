@@ -1,17 +1,15 @@
 # == Schema Information
 #
-# Table name: order_items
+# Table name: day_menus
 #
 #  id         :integer          not null, primary key
-#  item_id    :integer
-#  order_id   :integer
+#  day_id     :integer
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
-#  price      :decimal(, )
 #
 
 require 'rails_helper'
 
-RSpec.describe OrderItem, type: :model do
+RSpec.describe DayMenu, type: :model do
   pending "add some examples to (or delete) #{__FILE__}"
 end

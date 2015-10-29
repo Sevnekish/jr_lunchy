@@ -10,7 +10,7 @@
 
 class Order < ActiveRecord::Base
   belongs_to :user
-  has_many :items, through: :
+  # has_many :items, through: :
 
   # has_many :order_items, :dependent => :destroy, :class_name => 'Shoppe::OrderItem', :inverse_of => :order
   # accepts_nested_attributes_for :order_items, :allow_destroy => true, :reject_if => Proc.new { |a| a['ordered_item_id'].blank? }

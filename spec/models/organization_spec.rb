@@ -1,6 +1,6 @@
 # == Schema Information
 #
-# Table name: categories
+# Table name: organizations
 #
 #  id         :integer          not null, primary key
 #  name       :string
@@ -8,8 +8,8 @@
 #  updated_at :datetime         not null
 #
 
-class Category < ActiveRecord::Base
-  has_many :items, dependent: :destroy
+require 'rails_helper'
 
-  validates :name, presence: true, length: { in: 2..150 }
+RSpec.describe Organization, type: :model do
+  pending "add some examples to (or delete) #{__FILE__}"
 end

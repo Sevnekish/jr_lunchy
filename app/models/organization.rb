@@ -1,6 +1,6 @@
 # == Schema Information
 #
-# Table name: categories
+# Table name: organizations
 #
 #  id         :integer          not null, primary key
 #  name       :string
@@ -8,8 +8,8 @@
 #  updated_at :datetime         not null
 #
 
-class Category < ActiveRecord::Base
-  has_many :items, dependent: :destroy
+class Organization < ActiveRecord::Base
+  has_many :users
 
   validates :name, presence: true, length: { in: 2..150 }
 end

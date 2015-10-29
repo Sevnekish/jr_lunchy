@@ -19,6 +19,7 @@
 #  admin                  :boolean          default(FALSE)
 #  provider               :string
 #  uid                    :string
+#  organization_id        :integer
 #
 # Indexes
 #

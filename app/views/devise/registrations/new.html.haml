@@ -3,11 +3,11 @@
   = f.error_notification
   .form-inputs
     = f.input :name, required: true, autofocus: true
+    = f.association :organization, required: true
     = f.input :email, required: true
     = f.input :password, required: true, hint: ("#{@minimum_password_length} characters minimum" if @minimum_password_length)
     = f.input :password_confirmation, required: true
   .form-actions
     = f.button :submit, "Sign up"
-    = link_to user_omniauth_authorize_path(:facebook), :class => "btn btn-social-icon btn-facebook" do
-      %i.fa.fa-facebook
+    = render "shared/social_links"
 = render "devise/shared/links"

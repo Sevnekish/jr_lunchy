@@ -12,6 +12,7 @@ gem 'jquery-turbolinks'
 gem 'bcrypt-ruby'
 gem 'haml'
 gem 'bootstrap-sass'
+gem "font-awesome-rails"
 gem 'devise'
 gem "cancan"
 gem 'simple_form'
@@ -23,8 +24,7 @@ gem "responders"
 gem 'omniauth'
 # gem 'omniauth-google-oauth2'
 gem 'omniauth-facebook'
-
-gem "font-awesome-rails"
+gem 'activeadmin', github: 'activeadmin'
 
 group :doc do
   gem 'sdoc', '~> 0.4.0'

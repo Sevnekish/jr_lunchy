@@ -16,6 +16,11 @@
             = link_to week_menu_path  do
               %span.glyphicon.glyphicon-cutlery{"aria-hidden" => "true"}
               Week menu
+          - if current_user.admin?
+            %li
+              = link_to admin_root_path  do
+                %span.glyphicon.glyphicon-wrench{"aria-hidden" => "true"}
+                Administration
 
       %ul.nav.navbar-nav.navbar-right
         - if user_signed_in?

@@ -19,6 +19,7 @@
 #  admin                  :boolean          default(FALSE)
 #  provider               :string
 #  uid                    :string
+#  organization_id        :integer
 #
 # Indexes
 #
@@ -29,17 +30,25 @@
 
 class User < ActiveRecord::Base
   before_create :become_an_admin
-  # Include default devise modules. Others available are:
-  # :confirmable, :lockable, :timeoutable and :omniauthable
+
+  belongs_to :organization
+
   devise :database_authenticatable, :registerable,
 :recoverable, :rememberable, :trackable, :validatable,
 :omniauthable, :omniauth_providers => [:facebook]
 
-  def self.from_omniauth(auth)
+  # validates_associated :organization
+  validates :organization, presence: true
+  def first_entry?
+    self.sign_in_count == 1
+  end
+
+  def self.from_omniauth(auth, organization)
     where(provider: auth.provider, uid: auth.uid).first_or_create do |user|
       user.email = auth.info.email
       user.password = Devise.friendly_token[0,20]
       user.name = auth.info.name   # assuming the user model has a name
+      user.organization = organization
     end
   end
 

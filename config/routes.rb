@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  ActiveAdmin.routes(self)
+  
   root 'static_pages#home'
   get  'week-menu' => 'static_pages#week_menu'
 

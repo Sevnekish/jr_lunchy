@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151029222254) do
+ActiveRecord::Schema.define(version: 20151102130507) do
 
   create_table "active_admin_comments", force: :cascade do |t|
     t.string   "namespace"
@@ -34,17 +34,19 @@ ActiveRecord::Schema.define(version: 20151029222254) do
     t.datetime "updated_at", null: false
   end
 
-  create_table "day_menu_items", force: :cascade do |t|
-    t.integer  "day_menu_id"
-    t.integer  "item_id"
-    t.datetime "created_at",  null: false
-    t.datetime "updated_at",  null: false
-  end
-
   create_table "day_menus", force: :cascade do |t|
     t.integer  "day_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "item_associations", force: :cascade do |t|
+    t.integer  "item_id"
+    t.integer  "item_association_id"
+    t.string   "item_association_type"
+    t.decimal  "price"
+    t.datetime "created_at",            null: false
+    t.datetime "updated_at",            null: false
   end
 
   create_table "items", force: :cascade do |t|
@@ -53,14 +55,6 @@ ActiveRecord::Schema.define(version: 20151029222254) do
     t.decimal  "price"
     t.datetime "created_at",  null: false
     t.datetime "updated_at",  null: false
-  end
-
-  create_table "order_items", force: :cascade do |t|
-    t.integer  "item_id"
-    t.integer  "order_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.decimal  "price"
   end
 
   create_table "orders", force: :cascade do |t|

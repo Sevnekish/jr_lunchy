@@ -23,7 +23,7 @@ class OrdersController < ApplicationController
     params[:date] = params[:date].present? ? params[:date].to_datetime.end_of_day : DateTime.now
     @orders = Order.filter(params.slice(:date, :organization))
     @orders = @orders.where(user: current_user) unless current_user.admin?
-    @order = current_user.orders.build
+    @order = Order.new
     @items = DayMenu.actual(params[:date]).items
 
     respond_with @orders, @order, @items
@@ -61,9 +61,7 @@ class OrdersController < ApplicationController
 
     def order_params
       params.require(:order).permit(
-                                    :total,
-                                    :organization,
-                                    :item_ids
+                                    :item_ids => []
                                     )
     end
 

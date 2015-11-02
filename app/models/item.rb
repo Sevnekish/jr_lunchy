@@ -12,15 +12,9 @@
 
 class Item < ActiveRecord::Base
   belongs_to :category
-  has_many :order_items
-  has_many :orders, through: :order_items
 
-  has_many :day_menu_items
-  has_many :day_menus, through: :day_menu_items
+  has_many :item_associations, dependent: :destroy
+  has_many :orders, through: :item_associations
+  has_many :day_menus, through: :item_associations
 
-  # scope :by_category, -> { order(price: :desc) }
-
-  # def for_this_day(date)
-    
-  # end
 end

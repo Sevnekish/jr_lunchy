@@ -19,13 +19,13 @@ class Order < ActiveRecord::Base
   belongs_to :user
   belongs_to :organization
 
-  has_many :order_items, :dependent => :destroy
-  has_many :items, through: :order_items
+  has_many :item_associations, as: :item_association, dependent: :destroy
+  has_many :items, through: :item_associations
 
   scope :date, -> (date) { where created_at: date}
   scope :organization, -> (organization) { joins(:organization).where("organizations.name like ?", "#{organization}%")}
 
-  validates :items, presence: true
+  # validates :items, presence: true
 
   private
 

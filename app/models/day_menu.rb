@@ -9,8 +9,9 @@
 #
 
 class DayMenu < ActiveRecord::Base
-  has_many :day_menu_items
-  has_many :items, through: :day_menu_items
+
+  has_many :item_associations, as: :item_association, dependent: :destroy
+  has_many :items, through: :item_associations
 
   scope :actual, -> (date) {
     where(day_id: date.wday)

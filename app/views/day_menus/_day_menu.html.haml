@@ -1,0 +1,10 @@
+- Category.all.each do |category|
+  .panel.panel-primary
+    .panel-heading
+      = category.name
+    %table.table
+      %tbody
+        - day_menu.items.where(category: category).each do |item|
+          %tr
+            %td= item.name
+            %td= item.price

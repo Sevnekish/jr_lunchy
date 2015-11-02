@@ -3,7 +3,7 @@
 .row
   - for i in 0..4
     - cur_day = @first_day + i.days
-    = link_to new_order_path( :date => cur_day.strftime("%d-%m-%Y") ), :class => "day-link" do
+    = link_to orders_path( :date => cur_day.strftime("%d-%m-%Y") ), :class => "day-link" do
       .col-md-2{ :class => ("col-md-offset-1" if i == 0) }
         .day
           %p

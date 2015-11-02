@@ -4,29 +4,23 @@ class OrdersController < ApplicationController
   before_action :authenticate_user!
 
   def index
-    params[:date] = params[:date].present? ? params[:date].to_datetime.end_of_day : DateTime.now
+    #TODO change time zone convert 
+    params[:date] = params[:date].present? ? params[:date].to_datetime.in_time_zone('Moscow').end_of_day : DateTime.now
+    @date = params[:date]
     @orders = Order.filter(params.slice(:date, :organization))
     @orders = @orders.where(user: current_user) unless current_user.admin?
-    @order = current_user.orders.build
-    @items = DayMenu.actual(params[:date]).items
 
-    respond_with @orders, @order, @items
+    @day_menu = DayMenu.actual(params[:date])
+
+    respond_with @orders, @day_menu, @date
   end
 
   def new
-    # @date = DateTime.now
-
-    # @order = current_user.orders.build
-    # @items = DayMenu.actual(date).items
-
-    # respond_with @order, @items, @date
-    params[:date] = params[:date].present? ? params[:date].to_datetime.end_of_day : DateTime.now
-    @orders = Order.filter(params.slice(:date, :organization))
-    @orders = @orders.where(user: current_user) unless current_user.admin?
     @order = Order.new
-    @items = DayMenu.actual(params[:date]).items
+    @date = DateTime.now
+    @items = DayMenu.actual(@date).items
 
-    respond_with @orders, @order, @items
+    respond_with @order, @items, @date
   end
 
   def create

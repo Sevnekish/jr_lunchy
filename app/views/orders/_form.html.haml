@@ -1,7 +1,6 @@
 = simple_form_for @order do |f|
 
   - Category.all.each do |category|
-    = f.association :items, :label => category.name, :multiple => false, :collection => @items.where(category: category)
-    =# f.association :items, :label => category.name, as: :check_boxes, :collection => @items.where(category: category)
+    = f.association :items, label: category.name, multiple: false, collection: @items.where(category: category), :label_method => lambda { |item| "#{item.name}, #{item.price}" }
 
   = f.button :submit

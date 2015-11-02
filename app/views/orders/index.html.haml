@@ -1,11 +1,32 @@
-- provide(:title, "Orders for some day and menu")
-%h1 New order
-= render 'form'
-%h1 Orders for some day and menu
-%hr/
+- provide(:title, "#{@date.strftime("%A %d.%m.%Y")}")
 
-.row
-  = #render @hotels
+%h1
+  = @day_menu.blank? ? "No menu for" : "Menu for"
+  = @date.strftime("%A %d.%m.%Y")
 
-.row
-  = #will_paginate
+- if @day_menu.present?
+  .row
+    .col-md-6
+      = render 'day_menus/day_menu', day_menu: @day_menu
+
+%hr
+
+
+  %h1
+    = @orders.blank? ? "No" : ""
+    = 'order'.pluralize(@orders.count) + " for"
+    = @date.strftime("%A %d.%m.%Y")
+
+- if @orders.present?
+  .row
+    - if current_user.admin? & (@date.to_date == Date.today) & (@orders.where(user: current_user).empty?)
+      .row
+        .col-md-5
+          = link_to "Make order", new_order_path, class: "btn btn-lg btn-success btn-group-justified"
+    %br
+    = render @orders
+- else
+  - if @day_menu.present? & (@date.to_date == Date.today)
+    .row
+      .col-md-5
+        = link_to "Make order", new_order_path, class: "btn btn-lg btn-success btn-group-justified"

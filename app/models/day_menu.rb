@@ -13,11 +13,13 @@ class DayMenu < ActiveRecord::Base
   has_many :item_associations, as: :item_association, dependent: :destroy
   has_many :items, through: :item_associations
 
-  scope :actual, -> (date) {
-    where(day_id: date.wday)
-    .where('created_at <= ?', date)
-    .order(created_at: :desc)
-    .first
-  }
+  #not using scope, because it returns ActiveRecord::Relation instead of nil if no records was found
+  def self.actual(date)
+    self
+      .where(day_id: date.wday)
+      .where('created_at <= ?', date)
+      .order(created_at: :desc)
+      .first
+  end
 
 end

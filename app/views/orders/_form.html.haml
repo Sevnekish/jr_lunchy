@@ -1,14 +1,9 @@
-= simple_form_for @hotel, html: {multipart: true} do |f|
- 
-  = f.input :title, label: "Hotel name"
-  = f.input :breakfast_included, inline_label: "Breakfast included"
-  = f.input :room_description, label: "Room description"
-  = f.input :room_price, label: "Price"
-  = f.input :image, :as => :file
+= simple_form_for @order do |f|
 
-  = f.simple_fields_for :address do |a|
-    = a.input :country, :as => :string
-    = a.input :state
-    = a.input :city
-    = a.input :street
-    = f.button :submit
+  = f.association :items, as: :check_boxes, :include_hidden => false, :collection => Item.all
+
+  -# Category.all.each do |category|
+    = #f.association :items, :label => category.name, :multiple => false, :collection => @items.where(category: category)
+    =# f.association :items, :label => category.name, as: :check_boxes, :collection => @items.where(category: category)
+
+  = f.button :submit

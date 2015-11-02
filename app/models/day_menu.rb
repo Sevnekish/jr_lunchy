@@ -11,4 +11,12 @@
 class DayMenu < ActiveRecord::Base
   has_many :day_menu_items
   has_many :items, through: :day_menu_items
+
+  scope :actual, -> (date) {
+    where(day_id: date.wday)
+    .where('created_at <= ?', date)
+    .order(created_at: :desc)
+    .first
+  }
+
 end

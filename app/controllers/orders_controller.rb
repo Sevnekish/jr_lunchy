@@ -4,25 +4,37 @@ class OrdersController < ApplicationController
   before_action :authenticate_user!
 
   def index
-    # needed only for menu showing right, do it only for menu
-    # params[:date] = params[:date].present? ? params[:date].to_date : Date.today
+    params[:date] = params[:date].present? ? params[:date].to_datetime.end_of_day : DateTime.now
     @orders = Order.filter(params.slice(:date, :organization))
     @orders = @orders.where(user: current_user) unless current_user.admin?
-
     @order = current_user.orders.build
+    @items = DayMenu.actual(params[:date]).items
 
-    #items for this day menu
+    respond_with @orders, @order, @items
+  end
+
+  def new
+    # @date = DateTime.now
+
+    # @order = current_user.orders.build
+    # @items = DayMenu.actual(date).items
+
+    # respond_with @order, @items, @date
+    params[:date] = params[:date].present? ? params[:date].to_datetime.end_of_day : DateTime.now
+    @orders = Order.filter(params.slice(:date, :organization))
+    @orders = @orders.where(user: current_user) unless current_user.admin?
+    @order = current_user.orders.build
+    @items = DayMenu.actual(params[:date]).items
+
+    respond_with @orders, @order, @items
   end
 
   def create
-    # @hotel = current_user.hotels.build(hotel_params)
-
-    # if @hotel.save
-    #   flash[:success] = "New hotel added successfully!"
-    #   redirect_to hotel_path(@hotel)
-    # else
-    #   render 'new'
-    # end
+    @order = current_user.orders.build(order_params)
+    date = DateTime.now
+    @items = DayMenu.actual(date).items
+    @order.save
+    respond_with @order, location: orders_path
   end
 
   def edit
@@ -48,7 +60,10 @@ class OrdersController < ApplicationController
   private
 
     def order_params
-      params.require(:hotel).permit(
+      params.require(:order).permit(
+                                    :total,
+                                    :organization,
+                                    :item_ids
                                     )
     end
 

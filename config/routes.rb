@@ -8,6 +8,6 @@ Rails.application.routes.draw do
     omniauth_callbacks: "users/omniauth_callbacks"}
   resources :users, only: [:show]
 
-  resources :orders, except: [:new]
+  resources :orders
 
 end

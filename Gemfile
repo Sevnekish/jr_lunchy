@@ -26,6 +26,8 @@ gem 'omniauth'
 gem 'omniauth-facebook'
 gem 'activeadmin', github: 'activeadmin'
 
+gem 'hirb'
+
 group :doc do
   gem 'sdoc', '~> 0.4.0'
 end

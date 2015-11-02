@@ -9,7 +9,7 @@ ActiveAdmin.register_page "Dashboard" do
         panel "Recent Orders" do
           ul do
             Order.last(5).map do |order|
-              li link_to(admin_post_path(order))
+              li link_to(admin_order_path(order))
             end
           end
         end

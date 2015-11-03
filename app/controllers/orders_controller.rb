@@ -1,5 +1,7 @@
 class OrdersController < ApplicationController
+  responders :flash
   respond_to :html
+
   before_action :find_order, only: [:show, :edit, :update, :destroy]
   before_action :authenticate_user!
 
@@ -12,7 +14,7 @@ class OrdersController < ApplicationController
 
     @day_menu = DayMenu.actual(params[:date])
 
-    respond_with @orders, @day_menu, @date
+    respond_with @orders
   end
 
   def new
@@ -20,13 +22,14 @@ class OrdersController < ApplicationController
     @date = DateTime.now
     @items = DayMenu.actual(@date).items
 
-    respond_with @order, @items, @date
+    respond_with @order
   end
 
   def create
     @order = current_user.orders.build(order_params)
-    date = DateTime.now
-    @items = DayMenu.actual(date).items
+    @date = DateTime.now
+    @items = DayMenu.actual(@date).items
+
     @order.save
     respond_with @order, location: orders_path
   end

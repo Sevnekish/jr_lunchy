@@ -1,6 +1,16 @@
 - provide(:title, current_user.email)
 
-%p= current_user.name
-%p= current_user.email
+.row
+  .col-md-6
+    %table.table
+      %tr
+        %td Name:
+        %td= current_user.name
+      %tr
+        %td Organization:
+        %td= current_user.organization.name
+      %tr
+        %td Email:
+        %td= current_user.email
 
 = link_to 'Edit profile', edit_user_registration_path

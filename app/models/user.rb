@@ -32,25 +32,45 @@ class User < ActiveRecord::Base
   before_create :become_an_admin!
 
   belongs_to :organization
-  has_many :orders
+  has_many :orders, dependent: :destroy
 
   devise :database_authenticatable, :registerable,
 :recoverable, :rememberable, :trackable, :validatable,
 :omniauthable, :omniauth_providers => [:facebook]
 
+  validates :name, presence: true, length: { in: 2..150 }
   validates :organization, presence: true
 
   def first_entry?
-    self.sign_in_count == 1
+    self.sign_in_count <= 1
   end
 
   def self.from_omniauth(auth, organization)
-    where(provider: auth.provider, uid: auth.uid).first_or_create do |user|
-      user.email = auth.info.email
-      user.password = Devise.friendly_token[0,20]
-      user.name = auth.info.name   # assuming the user model has a name
-      user.organization = organization
+    user = User.where(:provider => auth.provider, :uid => auth.uid).first
+    if user
+      return user
+    else
+      registered_user = User.where(:email => auth.info.email).first
+      if registered_user
+        return registered_user
+      else
+        user = User.create(
+                            provider:auth.provider,
+                            uid:auth.uid,
+                            name: auth.info.name,
+                            email:auth.info.email,
+                            password:Devise.friendly_token[0,20],
+                            organization: organization
+                          )
+      end
     end
+
+    # where(provider: auth.provider, uid: auth.uid).first_or_create do |user|
+    #   user.email = auth.info.email
+    #   user.password = Devise.friendly_token[0,20]
+    #   user.name = auth.info.name   # assuming the user model has a name
+    #   user.organization = organization
+    # end
   end
 
   def self.new_with_session(params, session)

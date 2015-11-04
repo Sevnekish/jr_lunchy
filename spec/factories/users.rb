@@ -1,7 +1,7 @@
 FactoryGirl.define do
   factory :user do
     name                  { Faker::Name.name }
-    organization          { create :category }
+    organization          { create :organization }
     email                 { Faker::Internet.email }
     password              "password"
     password_confirmation "password"

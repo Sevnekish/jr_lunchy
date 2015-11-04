@@ -1,7 +1,7 @@
 FactoryGirl.define do
   factory :item do
-    name     { Faker::Address.country }
+    name     { Faker::App.name }
     category { create :category }
-    price    { Faker::Address.city }
+    price    { Faker::Number.between(30, 150) }
   end
 end

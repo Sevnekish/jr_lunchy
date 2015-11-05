@@ -17,4 +17,7 @@ class Item < ActiveRecord::Base
   has_many :orders, through: :item_associations
   has_many :day_menus, through: :item_associations
 
+  validates :category, presence: true
+  validates :name,     presence: true, length: { in: 2..150 }
+  validates :price,    presence: true, numericality: true
 end

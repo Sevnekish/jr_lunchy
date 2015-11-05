@@ -55,22 +55,15 @@ class User < ActiveRecord::Base
         return registered_user
       else
         user = User.create(
-                            provider:auth.provider,
-                            uid:auth.uid,
-                            name: auth.info.name,
-                            email:auth.info.email,
-                            password:Devise.friendly_token[0,20],
-                            organization: organization
-                          )
+          provider:auth.provider,
+          uid:auth.uid,
+          name: auth.info.name,
+          email:auth.info.email,
+          password:Devise.friendly_token[0,20],
+          organization: organization
+        )
       end
     end
-
-    # where(provider: auth.provider, uid: auth.uid).first_or_create do |user|
-    #   user.email = auth.info.email
-    #   user.password = Devise.friendly_token[0,20]
-    #   user.name = auth.info.name   # assuming the user model has a name
-    #   user.organization = organization
-    # end
   end
 
   def self.new_with_session(params, session)

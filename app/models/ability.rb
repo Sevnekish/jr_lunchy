@@ -8,9 +8,10 @@ class Ability
       can :manage, :all
     else
       can :read, :all #TODO can't read all, change it
-      can [:read, :update, :destroy], User do |managed_user|
-        managed_user == user
-      end
+      can :manage, User, :id => user.id
+      # can [:update, :services], Service do |service|
+      #   service.try(:user_id) == user.id
+      # end
     end
   end
 

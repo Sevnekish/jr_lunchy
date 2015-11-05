@@ -1,16 +1,16 @@
-- provide(:title, current_user.email)
+- provide(:title, @user.email)
 
 .row
   .col-md-6
     %table.table
       %tr
         %td Name:
-        %td= current_user.name
+        %td= @user.name
       %tr
         %td Organization:
-        %td= current_user.organization.name
+        %td= @user.organization.name
       %tr
         %td Email:
-        %td= current_user.email
+        %td= @user.email
 
 = link_to 'Edit profile', edit_user_registration_path

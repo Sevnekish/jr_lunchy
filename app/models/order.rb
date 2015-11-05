@@ -13,8 +13,8 @@
 class Order < ActiveRecord::Base
   include Filterable
 
-  before_validation :set_total!
-  before_validation :set_organization!
+  before_create :set_total!
+  before_create :set_organization!
 
   belongs_to :user
   belongs_to :organization
@@ -25,7 +25,8 @@ class Order < ActiveRecord::Base
   scope :date, -> (date) { where created_at: date.beginning_of_day..date.end_of_day}
   scope :organization, -> (organization) { joins(:organization).where("organizations.name like ?", "#{organization}%")}
 
-  validates :items, presence: true
+  validates :user,         presence: true
+  validates :items,        presence: true
 
   private
 

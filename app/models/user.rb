@@ -38,7 +38,7 @@ class User < ActiveRecord::Base
 :recoverable, :rememberable, :trackable, :validatable,
 :omniauthable, :omniauth_providers => [:facebook]
 
-  validates :name, presence: true, length: { in: 2..150 }
+  validates :name, presence: true, length: { in: 1..150 }
   validates :organization, presence: true
 
   def first_entry?

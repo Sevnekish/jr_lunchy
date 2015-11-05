@@ -35,7 +35,13 @@ drinks_items = Item.create([
   { name: 'Dr Pepper', price: 110, category: categories[2] }
 ])
 
-(1..5).each do |day_id|
+# (1..5).each do |day_id|
+#   DayMenu.create(
+#     day_id: day_id,
+#     items:  first_course_items.sample(3) + main_course_items.sample(3) + drinks_items.sample(3)
+#   )
+# end
+(0..6).each do |day_id|
   DayMenu.create(
     day_id: day_id,
     items:  first_course_items.sample(3) + main_course_items.sample(3) + drinks_items.sample(3)

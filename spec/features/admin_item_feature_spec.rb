@@ -1,110 +1,102 @@
 require 'rails_helper'
 
 RSpec.feature "Item", type: :feature do
-  # let(:valid_attributes) { {
-  #     rating: 4,
-  #     body: "Test comment"
-  #   }
-  # }
 
-  # before (:each) do
-  #   @address_1 = FactoryGirl.create(:address)
-  #   @hotel_1 = FactoryGirl.create(:hotel, address: @address_1)
-  #   login_as(@hotel_1.user, :scope => :user)
-  # end
+  before (:each) do
+    @admin = FactoryGirl.create(:user, admin: true)
+    @category = FactoryGirl.create(:category)
+    @valid_attributes = {
+      name:     'test soup',
+      price:    120,
+      category: @category
+    }
+  end
 
-  # feature "Add new", :js => true do
-  #   before (:each) do
-  #     visit "/hotels/#{@hotel_1.id}/reviews/new"
-  #   end
+  feature "Add new" do
+    before (:each) do
+      login_as(@admin, :scope => :user)
+      visit "/admin/items/new"
+    end
 
-  #   subject { page }
+    subject { page }
 
-  #   it { should have_content("Rating") }
-  #   it { should have_content("Comment") }
+    # it { should have_content 'Create Item' }
+    it { should have_selector("input[type=submit][value='Create Item']") }
 
-  #   scenario 'with logged in user' do
-  #     # fill_in :name => "review[rating]", :with => valid_attributes[:rating]
-  #     # find(:xpath, "//input[@name='review[rating]'").set(valid_attributes[:rating])
-  #     page.execute_script("$('#rating-input').find('input').val(#{valid_attributes[:rating]})")
-  #     fill_in 'Comment', :with => valid_attributes[:body]
+    scenario 'with logged in user' do
+      # find('#item_category_id').find(:xpath, 'option[1]').select_option
+      select @category.name, :from => "item_category_id"
+      fill_in 'Name',  :with => @valid_attributes[:name]
+      fill_in 'Price', :with => @valid_attributes[:price]
 
-  #     click_button 'Create Review'
+      click_button 'Create Item'
 
-  #     expect(current_path).to eql("/hotels/#{@hotel_1.id}")
+      expect(current_path).to eql("/admin/items/#{Item.last.id}")
 
-  #     should have_content 'New review added successfully!'
+      should have_content 'Item was successfully created.'
 
-  #     should have_content valid_attributes[:body]
+      should have_content @valid_attributes[:name]
+      should have_content @valid_attributes[:price]
 
-  #     should have_link 'Edit'
-  #     should have_link 'Delete'
+      should have_link 'Edit Item'
+      should have_link 'Delete Item'
 
-  #   end
+    end
+  end
 
-  #   scenario "with logged out user" do
-  #     logout(:user)
-  #     visit "/hotels/#{@hotel_1.id}/reviews/new"
-  #     expect(current_path).to eql('/users/sign_in')
-  #     should have_content 'You need to sign in or sign up before continuing.'
-  #   end
-  # end
+  feature 'Edit' do
+    before (:each) do
+      login_as(@admin, :scope => :user)
+      @new_name = "New name"
+      @item = FactoryGirl.create(:item)
+      visit "/admin/items/#{@item.id}/edit"
+    end
 
-  # feature 'Edit', :js => true do
-  #   before (:each) do
-  #     @new_comment = "New comment"
-  #     @review_1 = FactoryGirl.create(:review, hotel: @hotel_1, user: @hotel_1.user)
-  #     visit "/hotels/#{@hotel_1.id}/reviews/#{@review_1.id}/edit"
-  #   end
+    subject { page }
 
-  #   subject { page }
+    it { should have_selector("input[type=submit][value='Update Item']") }
 
-  #   it { should have_content("Rating") }
-  #   it { should have_content("Comment") }
+    scenario 'with logged in user' do
 
-  #   scenario 'with logged in user' do
+      fill_in 'Name', :with => @new_name
 
-  #     page.execute_script("$('#rating-input').find('input').val(3)")
-  #     fill_in 'Comment', :with => @new_comment
+      click_button 'Update Item'
 
-  #     click_button 'Update Review'
+      expect(current_path).to eql("/admin/items/#{@item.id}")
 
-  #     expect(current_path).to eql("/hotels/#{@hotel_1.id}")
+      should have_content 'Item was successfully updated.'
 
-  #     should have_content 'Review updated successfully!'
+      should have_content @new_name
 
-  #     should have_content @new_comment
+      should have_link 'Edit Item'
+      should have_link 'Delete Item'
 
-  #     should have_link 'Edit'
-  #     should have_link 'Delete'
+    end
+  end
 
-  #   end
-  # end
+  feature 'Delete' do
+    before (:each) do
+      login_as(@admin, :scope => :user)
+      @item = FactoryGirl.create(:item)
+      visit "/admin/items/#{@item.id}"
+    end
 
-  # feature 'Delete' do
-  #   before (:each) do
-  #     @review_1 = FactoryGirl.create(:review, hotel: @hotel_1, user: @hotel_1.user)
-  #     visit "/hotels/#{@hotel_1.id}"
-  #   end
+    subject { page }
 
-  #   subject { page }
+    it { should have_link("Edit Item") }
+    it { should have_link("Delete Item") }
 
-  #   it { should have_link("Edit") }
-  #   it { should have_link("Delete") }
+    scenario 'with logged in user' do
 
-  #   scenario 'with logged in user' do
+      click_link 'Delete Item'
 
-  #     click_link 'Delete'
+      expect(current_path).to eql("/admin/items")
 
-  #     expect(current_path).to eql("/hotels/#{@hotel_1.id}")
+      should have_content 'Item was successfully destroyed.'
 
-  #     should have_content 'Review deleted successfully!'
+      should_not have_content @item.name
 
-  #     should_not have_content @review_1.body
-
-  #     should have_link 'Add Review'
-
-  #   end
-  # end
+    end
+  end
 
 end

@@ -1,1 +1,4 @@
 {<img src="https://travis-ci.org/Sevnekish/jr_lunchy.svg?branch=master" alt="Build Status" />}[https://travis-ci.org/Sevnekish/jr_lunchy]
+
+adminadmin@mail.com
+adminadmin

@@ -1,8 +1,8 @@
-# organizations = Organization.create([
-#   { name: 'AviaSales' },
-#   { name: 'GreatBank' },
-#   { name: 'CodingGuys' }
-# ])
+organizations = Organization.create([
+  { name: 'AviaSales' },
+  { name: 'GreatBank' },
+  { name: 'CodingGuys' }
+])
 categories = Category.create([
   { name: 'first_course' },
   { name: 'main_course' },
@@ -39,11 +39,13 @@ drinks_items = Item.create([
 #   DayMenu.create(
 #     day_id: day_id,
 #     items:  first_course_items.sample(3) + main_course_items.sample(3) + drinks_items.sample(3)
+#     created_at: DateTime.now - 8.days
 #   )
 # end
 (0..6).each do |day_id|
   DayMenu.create(
     day_id: day_id,
     items:  first_course_items.sample(3) + main_course_items.sample(3) + drinks_items.sample(3)
+    created_at: DateTime.now - 8.days
   )
 end

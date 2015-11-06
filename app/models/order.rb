@@ -25,8 +25,8 @@ class Order < ActiveRecord::Base
   scope :date, -> (date) { where created_at: date.beginning_of_day..date.end_of_day}
   scope :organization, -> (organization) { joins(:organization).where("organizations.name like ?", "#{organization}%")}
 
-  validates :user,         presence: true
-  validates :items,        presence: true
+  validates :user,  presence: true, first_order_for_today: true
+  validates :items, presence: true, order_items: true
 
   private
 

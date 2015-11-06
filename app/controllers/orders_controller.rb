@@ -6,7 +6,6 @@ class OrdersController < ApplicationController
   before_action :authenticate_user!
 
   def index
-    #TODO change time zone convert 
     # params[:date] = params[:date].present? ? params[:date].to_datetime.in_time_zone('Moscow').end_of_day : DateTime.now
     params[:date] = params[:date].present? ? params[:date].to_datetime.end_of_day : DateTime.now
     @date = params[:date]
@@ -40,18 +39,18 @@ class OrdersController < ApplicationController
 
   def update
     # if @order.update(order_params)
-    #   redirect_to hotel_path(@hotel)
+    #   redirect_to hotel_path(@order)
     # else
     #   render 'edit'
     # end
   end
 
   def destroy
-    # if @hotel.destroy
+    # if @order.destroy
     #   flash[:success] = "Hotel deleted successfully!"
     #   redirect_to hotels_path
     # else
-    #   redirect_to hotel_path(@hotel)
+    #   redirect_to hotel_path(@order)
     # end
   end
 
@@ -64,7 +63,7 @@ class OrdersController < ApplicationController
     end
 
     def find_order
-      # @hotel = Hotel.find(params[:id])
+      # @order = Order.find(params[:id])
     end
 
 end

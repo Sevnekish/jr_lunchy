@@ -45,6 +45,11 @@ class User < ActiveRecord::Base
     self.sign_in_count <= 1
   end
 
+  def today_orders
+    date = DateTime.now
+    self.orders.where(created_at: date.beginning_of_day..date.end_of_day)
+  end
+
   def self.from_omniauth(auth, organization)
     user = User.where(:provider => auth.provider, :uid => auth.uid).first
     if user

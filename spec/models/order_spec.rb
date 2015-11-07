@@ -27,8 +27,7 @@ RSpec.describe Order, type: :model do
   end
 
   context 'validations' do
-    it { should validate_presence_of :user }
-    it { should validate_presence_of :items }
+
   end
 
   context 'scopes' do
@@ -38,11 +37,17 @@ RSpec.describe Order, type: :model do
       @date = DateTime.now - 4.days
 
       @user_1 = FactoryGirl.create(:user, organization: @organization_1)
+      @user_2 = FactoryGirl.create(:user, organization: @organization_1)
 
-      @order_1 = FactoryGirl.create(:order, user: @user_1, created_at: @date.beginning_of_day + 10.minutes)
-      @order_2 = FactoryGirl.create(:order, user: @user_1, created_at: @date.beginning_of_day + 30.minutes)
+      @order_1 = FactoryGirl.build(:order, user: @user_1, created_at: @date.beginning_of_day + 10.minutes).save(validate: false)
+      @order_2 = FactoryGirl.build(:order, user: @user_2, created_at: @date.beginning_of_day + 30.minutes).save(validate: false)
 
-      @order_3 = FactoryGirl.create(:order)
+      @order_3 = FactoryGirl.build(:order).save(validate: false)
+
+      # @order_1 = FactoryGirl.create(:order, user: @user_1, created_at: @date.beginning_of_day + 10.minutes)
+      # @order_2 = FactoryGirl.create(:order, user: @user_2, created_at: @date.beginning_of_day + 30.minutes)
+
+      # @order_3 = FactoryGirl.create(:order).save(validate: false)
     end
 
     context ':date' do
@@ -61,11 +66,12 @@ RSpec.describe Order, type: :model do
 
   context '#set_total!' do
     before do
-      @items = FactoryGirl.create_list(:item, 3)
+      @day_menu = FactoryGirl.create(:day_menu)
+      @items = [@day_menu.items[0], @day_menu.items[3], @day_menu.items[6]]
       @order = FactoryGirl.build(:order, items: @items)
     end
 
-    it { expect{ @order.send(:set_total!) }.to change{@order.total}.from(nil).to(@items[0].price + @items[1].price + @items[2].price) }
+    it { expect{ @order.send(:set_total!) }.to change{@order.total}.from(nil).to(@day_menu.items[0].price + @day_menu.items[3].price + @day_menu.items[6].price) }
 
   end
 

@@ -5,8 +5,8 @@
     - cur_day = @first_day + i.days
     = link_to orders_path( :date => cur_day.strftime("%d-%m-%Y") ), :class => "day-link" do
       .col-md-1
-        .day
-          %p
-            = cur_day.strftime("%A %d.%m.%Y")
-          - if cur_day == Date.today
-            %p Today
+        .panel.panel-default.day
+          .panel-heading.date
+            = cur_day.strftime("%d.%m.%Y")
+          .panel-body.wday{:class => ("today" if cur_day == Date.today)}
+            = cur_day.strftime("%a")

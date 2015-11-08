@@ -10,4 +10,8 @@ Rails.application.routes.draw do
 
   resources :orders
 
+  namespace :api, defaults: { format: :json }, constraints: { subdomain: 'api' }, path: '/' do
+    
+  end
+
 end

@@ -20,6 +20,7 @@
 #  provider               :string
 #  uid                    :string
 #  organization_id        :integer
+#  auth_token             :string           default("")
 #
 # Indexes
 #
@@ -38,6 +39,7 @@ RSpec.describe User, type: :model do
   context 'associations' do
     it { should have_many(:orders).dependent(:destroy) }
     it { should belong_to(:organization) }
+    it { should validate_uniqueness_of(:auth_token)}
   end
 
   context 'validations' do
@@ -145,5 +147,23 @@ RSpec.describe User, type: :model do
       it { expect{ @user.send(:become_an_admin!) }.not_to change{@user.admin} }
     end
 
+  end
+
+  context "#generate_authentication_token!" do
+    before do
+      @user = FactoryGirl.build(:user)
+    end
+    
+    it "generates a unique token" do
+      Devise.stub(:friendly_token).and_return("auniquetoken123")
+      @user.generate_authentication_token!
+      expect(@user.auth_token).to eql "auniquetoken123"
+    end
+
+    it "generates another token when one already has been taken" do
+      existing_user = FactoryGirl.create(:user, auth_token: "auniquetoken123")
+      @user.generate_authentication_token!
+      expect(@user.auth_token).not_to eql existing_user.auth_token
+    end
   end
 end

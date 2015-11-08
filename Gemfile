@@ -28,6 +28,9 @@ gem 'activeadmin', github: 'activeadmin'
 
 gem 'hirb'
 
+#Api gems
+gem 'active_model_serializers'
+
 group :doc do
   gem 'sdoc', '~> 0.4.0'
 end

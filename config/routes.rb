@@ -10,8 +10,8 @@ Rails.application.routes.draw do
 
   resources :orders
 
-  namespace :api, defaults: { format: :json }, constraints: { subdomain: 'api' }, path: '/' do
-    
+  namespace :api, defaults: { format: :json } do
+    resources :orders, :only => [:index]
   end
 
 end

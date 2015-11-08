@@ -20,6 +20,7 @@
 #  provider               :string
 #  uid                    :string
 #  organization_id        :integer
+#  auth_token             :string           default("")
 #
 # Indexes
 #
@@ -30,6 +31,7 @@
 
 class User < ActiveRecord::Base
   before_create :become_an_admin!
+  before_create :generate_authentication_token!
 
   belongs_to :organization
   has_many :orders, dependent: :destroy
@@ -40,6 +42,7 @@ class User < ActiveRecord::Base
 
   validates :name, presence: true, length: { in: 1..150 }
   validates :organization, presence: true
+  validates :auth_token, uniqueness: true
 
   def first_entry?
     self.sign_in_count <= 1
@@ -48,6 +51,12 @@ class User < ActiveRecord::Base
   def today_orders
     date = DateTime.now
     self.orders.where(created_at: date.beginning_of_day..date.end_of_day)
+  end
+
+  def generate_authentication_token!
+    begin
+      self.auth_token = Devise.friendly_token
+    end while self.class.exists?(auth_token: auth_token)
   end
 
   def self.from_omniauth(auth, organization)

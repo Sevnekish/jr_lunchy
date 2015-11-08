@@ -10,6 +10,7 @@ RSpec.describe OrdersController, type: :controller do
   end
 
   it { should use_before_action(:authenticate_user!) }
+  it { should use_before_action(:first_order?) }
 
   describe "GET #index" do
     before do
@@ -179,6 +180,28 @@ RSpec.describe OrdersController, type: :controller do
         end
       end
 
+      describe 'when user already make order today' do
+        before do
+          @order = FactoryGirl.create(:order, user: @user, items: [@day_menu.items[0], @day_menu.items[3], @day_menu.items[6]])
+        end
+
+        it 'assigns a newly created but unsaved order as @order' do
+          expect {
+            post :create, order: @valid_attributes
+          }.to change(Order, :count).by(0)
+        end
+
+        it 'redirects to index' do
+          post :create, order: @valid_attributes
+          expect(response).to redirect_to(orders_path)
+        end
+
+        it 'set flash' do
+          post :create, order: @valid_attributes
+          should set_flash[:alert].to("You can make order only once a day!")
+        end
+      end
+
     end
 
     context 'when logged out' do
@@ -215,6 +238,22 @@ RSpec.describe OrdersController, type: :controller do
 
       it "should assert order" do
         expect assigns(:order) == Order.new
+      end
+
+      describe 'when user already make order today' do
+        before do
+          @order = FactoryGirl.create(:order, user: @user, items: [@day_menu.items[0], @day_menu.items[3], @day_menu.items[6]])
+        end
+
+        it 'redirects to index' do
+          get :new
+          expect(response).to redirect_to(orders_path)
+        end
+
+        it 'set flash' do
+          get :new
+          should set_flash[:alert].to("You can make order only once a day!")
+        end
       end
 
     end

@@ -4,6 +4,8 @@ class OrdersController < ApplicationController
 
   # before_action :find_order, only: [:show, :edit, :update, :destroy]
   before_action :authenticate_user!
+  before_action :first_order?, only: [:new, :create]
+  # load_and_authorize_resource
 
   def index
     # params[:date] = params[:date].present? ? params[:date].to_datetime.in_time_zone('Moscow').end_of_day : DateTime.now
@@ -38,8 +40,15 @@ class OrdersController < ApplicationController
 
     def order_params
       params.require(:order).permit(
-                                    :item_ids => []
-                                    )
+        :item_ids => []
+      )
+    end
+
+    def first_order?
+      unless current_user.today_orders.empty?
+        flash[:alert] = "You can make order only once a day!"
+        redirect_to orders_path
+      end
     end
 
 end

@@ -1,6 +1,9 @@
 ActiveAdmin.register DayMenu do
   config.per_page = 20
 
+  filter :day_id, as: :select, collection: Date::DAYNAMES.zip((0..7).to_a)
+  filter :created_at, as: :date_range
+
   permit_params :day_id, :item_ids => []
 
   index do

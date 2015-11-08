@@ -45,6 +45,9 @@ RSpec.configure do |config|
   config.before :suite do
     Warden.test_mode!
   end
+  config.after do
+    Warden.test_reset!
+  end
 
   # Remove this line if you're not using ActiveRecord or ActiveRecord fixtures
   config.fixture_path = "#{::Rails.root}/spec/fixtures"

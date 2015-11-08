@@ -32,10 +32,10 @@ RSpec.describe UsersController, type: :controller do
         sign_out @user_1
       end
 
-      # it "redirect to the new_user_session" do
-      #   get :show, id: @user_2.id
-      #   expect(response).to redirect_to new_user_session_path
-      # end
+      it "redirect to the new_user_session" do
+        get :show, id: @user_2.id
+        expect(response).to redirect_to new_user_session_path
+      end
 
     end
 

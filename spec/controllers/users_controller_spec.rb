@@ -16,12 +16,12 @@ RSpec.describe UsersController, type: :controller do
     context 'when logged in' do
 
       it "renders the show template for current user" do
-        get :show, id: @user_1.id
+        get :show, id: @user_1.id, format: :html
         expect(response).to render_template("show")
       end
 
       it "redirect to the root_url if not current user" do
-        get :show, id: @user_2.id
+        get :show, id: @user_2.id, format: :html
         expect(response).to redirect_to root_url
       end
 
@@ -33,7 +33,7 @@ RSpec.describe UsersController, type: :controller do
       end
 
       it "redirect to the new_user_session" do
-        get :show, id: @user_2.id
+        get :show, id: @user_2.id, format: :html
         expect(response).to redirect_to new_user_session_path
       end
 

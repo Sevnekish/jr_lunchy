@@ -33,7 +33,7 @@ RSpec.describe OrdersController, type: :controller do
 
         context 'without params' do
           it "renders the index template" do
-            get :index
+            get :index, format: :html
             expect(response).to render_template("index")
           end
 
@@ -53,7 +53,7 @@ RSpec.describe OrdersController, type: :controller do
 
         context 'with date params' do
           it "renders the index template" do
-            get :index, date: @another_date.strftime("%d-%m-%Y")
+            get :index, date: @another_date.strftime("%d-%m-%Y"), format: :html
             expect(response).to render_template("index")
           end
 
@@ -79,7 +79,7 @@ RSpec.describe OrdersController, type: :controller do
 
         context 'without params' do
           it "renders the index template" do
-            get :index
+            get :index, format: :html
             expect(response).to render_template("index")
           end
 
@@ -99,7 +99,7 @@ RSpec.describe OrdersController, type: :controller do
 
         context 'with date params' do
           it "renders the index template" do
-            get :index, date: @another_date.strftime("%d-%m-%Y")
+            get :index, date: @another_date.strftime("%d-%m-%Y"), format: :html
             expect(response).to render_template("index")
           end
 
@@ -121,7 +121,7 @@ RSpec.describe OrdersController, type: :controller do
 
     context 'when user is logged out' do
       it "redirect to the new_user_session" do
-        get :index
+        get :index, format: :html
         expect(response).to redirect_to new_user_session_path
       end
     end
@@ -149,18 +149,18 @@ RSpec.describe OrdersController, type: :controller do
       describe 'with valid params' do
         it 'creates a new order' do
           expect {
-            post :create, order: @valid_attributes
+            post :create, order: @valid_attributes, format: :html
           }.to change(Order, :count).by(1)
         end
 
         it 'assigns a newly created order as @order' do
-          post :create, order: @valid_attributes
+          post :create, order: @valid_attributes, format: :html
           expect(assigns(:order)).to be_a(Order)
           expect(assigns(:order)).to be_persisted
         end
 
         it 'redirects to the created order and set flash' do
-          post :create, order: @valid_attributes
+          post :create, order: @valid_attributes, format: :html
           expect(response).to redirect_to(orders_path)
           should set_flash[:notice].to("Order was successfully created.")
         end
@@ -170,12 +170,12 @@ RSpec.describe OrdersController, type: :controller do
       describe 'with invalid params' do
         it 'assigns a newly created but unsaved order as @order' do
           expect {
-            post :create, order: @invalid_attributes
+            post :create, order: @invalid_attributes, format: :html
           }.to change(Order, :count).by(0)
         end
 
         it 're-renders the new template' do
-          post :create, order: @invalid_attributes
+          post :create, order: @invalid_attributes, format: :html
           expect(response).to render_template('new')
         end
       end
@@ -187,17 +187,17 @@ RSpec.describe OrdersController, type: :controller do
 
         it 'assigns a newly created but unsaved order as @order' do
           expect {
-            post :create, order: @valid_attributes
+            post :create, order: @valid_attributes, format: :html
           }.to change(Order, :count).by(0)
         end
 
         it 'redirects to index' do
-          post :create, order: @valid_attributes
+          post :create, order: @valid_attributes, format: :html
           expect(response).to redirect_to(orders_path)
         end
 
         it 'set flash' do
-          post :create, order: @valid_attributes
+          post :create, order: @valid_attributes, format: :html
           should set_flash[:alert].to("You can make order only once a day!")
         end
       end
@@ -206,7 +206,7 @@ RSpec.describe OrdersController, type: :controller do
 
     context 'when logged out' do
       it "redirect to the new_user_session" do
-        post :create, order: @valid_attributes
+        post :create, order: @valid_attributes, format: :html
         expect(response).to redirect_to new_user_session_path
       end
     end
@@ -223,7 +223,7 @@ RSpec.describe OrdersController, type: :controller do
       end
 
       it "renders the new template" do
-        get :new
+        get :new, format: :html
         expect(response).to render_template("new")
       end
 
@@ -246,12 +246,12 @@ RSpec.describe OrdersController, type: :controller do
         end
 
         it 'redirects to index' do
-          get :new
+          get :new, format: :html
           expect(response).to redirect_to(orders_path)
         end
 
         it 'set flash' do
-          get :new
+          get :new, format: :html
           should set_flash[:alert].to("You can make order only once a day!")
         end
       end
@@ -261,7 +261,7 @@ RSpec.describe OrdersController, type: :controller do
     context 'when logged out' do
 
       it "redirect to the new_user_session" do
-        get :new
+        get :new, format: :html
         expect(response).to redirect_to new_user_session_path
       end
 

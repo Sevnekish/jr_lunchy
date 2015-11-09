@@ -45,7 +45,7 @@ drinks_items = Item.create([
 (0..6).each do |day_id|
   DayMenu.create(
     day_id: day_id,
-    items:  first_course_items.sample(3) + main_course_items.sample(3) + drinks_items.sample(3)
+    items:  first_course_items.sample(3) + main_course_items.sample(3) + drinks_items.sample(3),
     created_at: DateTime.now - 8.days
   )
 end

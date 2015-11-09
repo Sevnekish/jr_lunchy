@@ -8,8 +8,8 @@ class OrdersController < ApplicationController
   # load_and_authorize_resource
 
   def index
-    # params[:date] = params[:date].present? ? params[:date].to_datetime.in_time_zone('Moscow').end_of_day : DateTime.now
-    params[:date] = params[:date].present? ? params[:date].to_datetime.end_of_day : DateTime.now
+    params[:date] = params[:date].present? ? params[:date].to_datetime.in_time_zone('Moscow').end_of_day : DateTime.now
+    # params[:date] = params[:date].present? ? params[:date].to_datetime.end_of_day : DateTime.now
     @date = params[:date]
     @orders = Order.filter(params.slice(:date, :organization))
     @orders = @orders.where(user: current_user) unless current_user.admin?

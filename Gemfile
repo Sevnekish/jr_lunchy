@@ -40,6 +40,7 @@ group :development, :test do
   gem 'web-console', '~> 2.0'
   gem 'sqlite3',     '1.3.9'
   gem 'rspec-rails'
+  gem 'rspec-collection_matchers'
 end
 
 group :test do

@@ -15,6 +15,7 @@ ActiveAdmin.register User do
     column :admin
     column :provider
     column :uid
+    column :auth_token
     column :sign_in_count
     column :current_sign_in_at
     column :last_sign_in_at

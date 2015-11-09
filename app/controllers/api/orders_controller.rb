@@ -1,8 +1,9 @@
 class Api::OrdersController < ApplicationController
+  before_action :authenticate_with_token!
   respond_to :json
 
   def index
-    params[:date] = params[:date].present? ? params[:date].to_datetime.end_of_day : DateTime.now
+    params[:date] = params[:date].present? ? params[:date].to_datetime.in_time_zone('Moscow').end_of_day : DateTime.now
     orders = Order.filter(params.slice(:date, :organization))
 
     respond_with orders

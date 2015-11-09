@@ -31,7 +31,7 @@
 
 class User < ActiveRecord::Base
   before_create :become_an_admin!
-  before_create :generate_authentication_token!
+  before_validation :generate_authentication_token!
 
   belongs_to :organization
   has_many :orders, dependent: :destroy
@@ -42,7 +42,7 @@ class User < ActiveRecord::Base
 
   validates :name, presence: true, length: { in: 1..150 }
   validates :organization, presence: true
-  validates :auth_token, uniqueness: true
+  # validates :auth_token, uniqueness: true
 
   def first_entry?
     self.sign_in_count <= 1
